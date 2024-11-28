@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Form.js</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+</head>
+<style>
+    .id-card {
+        border: 2px solid #007bff;
+        border-radius: 15px;
+        padding: 20px;
+        max-width: 350px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        margin: 50px auto;
+        background-color: #f7f7f7;
+    }
+
+    .id-card .card-header {
+        text-align: center;
+        font-size: 24px;
+        color: #007bff;
+    }
+
+    .id-card .profile-img {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 4px solid #007bff;
+        margin: 0 auto;
+        display: block;
+    }
+
+    .id-card .details {
+        margin-top: 20px;
+        margin: 0 auto;
+
+    }
+
+    .id-card .details p {
+        font-size: 16px;
+        margin: 5px 0;
+        color: #333;
+        margin: 0 auto;
+
+    }
+
+    .id-card .details .key {
+        font-weight: bold;
+        color: #007bff;
+    }
+
+    .id-card .details .value {
+        color: #555;
+    }
+
+    .id-card .footer {
+        margin-top: 20px;
+        text-align: center;
+    }
+
+    .id-card .footer .btn {
+        background-color: #007bff;
+        color: white;
+        border: none;
+    }
+
+    .id-card .footer .btn:hover {
+        background-color: #0056b3;
+    }
+</style>
+
+<body>
+    <div class="container form">
+        <div class="row">
+            <div class="col-md-6 mt-5">
+                <p>Select city</p>
+                <select class="form-select h-75" id="city">
+                    <option value="City" hidden>City</option>
+                    <option value="Karachi">Karachi</option>
+                    <option value="Lahore">Lahore</option>
+                    <option value="Islamabad">Islamabad</option>
+                    <option value="Quetta">Quetta</option>
+                </select>
+            </div>
+            <div class="col-md-6 mt-5">
+                <p>Full name</p>
+                <input type="text" class="form-control w-100 h-75" placeholder="Full name" id="fname">
+            </div>
+            <div class="col-md-6 mt-5">
+                <p>Father name</p>
+                <input type="text" class="form-control w-100 h-75" placeholder="Father name" id="lname">
+            </div>
+            <div class="col-md-6 mt-5">
+                <p>Email</p>
+                <input type="email" class="form-control w-100 h-75" placeholder="Email" id="email">
+            </div>
+            <div class="col-md-6 mt-5">
+                <p>Phone</p>
+                <input type="text" class="form-control w-100 h-75" placeholder="Phone" id="phone">
+            </div>
+            <div class="col-md-6 mt-5">
+                <p>CNIC</p>
+                <input type="text" class="form-control w-100 h-75" placeholder="CNIC" id="cnic">
+            </div>
+            <div class="col-md-6 mt-5">
+                <p>Birth Date</p>
+                <input type="date" class="form-control w-100 h-75" id="bDate">
+            </div>
+            <div class="col-md-6 mt-5">
+                <p>Select gender</p>
+                <select class="form-select h-75" id="gender">
+                    <option value="" hidden>gender</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                </select>
+            </div>
+            <div class="col-md-6 mt-5">
+                <h5>Address</h5>
+                <input type="text" class="form-control w-100 h-75" placeholder="Enter your Address" id="address">
+            </div>
+            <div class="col-md-6 mt-5">
+                <h5>Upload your profile picture</h5>
+                <input type="file" class="form-control w-100 h-75" id="image" accept="image/*"
+                    onchange="previewImage()">
+            </div>
+        </div>
+        <button type="button" class="btn btn-primary w-100 mt-5 mb-4" onclick="getDetail()">SUBMIT</button>
+    </div>
+
+   
+  
+    <div class="w-50 border mx-auto rounded d-flex justify-content-center align-items-center gap-3 p-1" >
+        <div class="w-100">
+            <img src="https://placehold.co/100" id="newimg" style="object-fit: cover; "class="w-50"  alt="">
+        </div>
+        
+        <div class="w-100 d-flex flex-column justify-content-around">
+            <div >First name : <span id="fnameS"></span></div>
+            <div>Last name :<span id="lnameS"></span></div>
+            <div>Phone # : <span id="phoneS"></span></div>
+            <div>Res.<span id="addressS"></span></div>
+        </div>
+    </div>
+    <br>
+    <br>
+    <br>
+
+    <!-- <img src="" id="newimg" alt="Uploaded Image" style="max-width: 100%; margin-top: 20px;"> -->
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+
+    <script>
+        // This function is triggered when a file is selected
+        function previewImage() {
+            var fileInput = document.getElementById("image");
+            var imageFile = fileInput.files[0]; // Get the first file selected
+            var imagePreview = document.getElementById("newimg"); // Image element to display the uploaded image
+
+            if (imageFile) {
+                var reader = new FileReader(); // Create a FileReader to read the file
+                reader.onload = function (e) {
+                    imagePreview.src = e.target.result; // Set the src of the image element to the file's data URL
+                }
+                reader.readAsDataURL(imageFile); // Read the file as a Data URL
+            }
+        }
+
+        // This function is triggered when the form is submitted
+        function getDetail() {
+            var city = document.getElementById("city").value;
+            var fname = document.getElementById("fname").value;
+            var lname = document.getElementById("lname").value;
+            var email = document.getElementById("email").value;
+            var phone = document.getElementById("phone").value;
+            var cnic = document.getElementById("cnic").value;
+            var bDate = document.getElementById("bDate").value;
+            var gender = document.getElementById("gender").value;
+            var address = document.getElementById("address").value;
+            var fnameS = document.getElementById("fnameS").textContent = fname;
+            var lnameS = document.getElementById("lnameS").textContent = lname;
+            var phoneS = document.getElementById("phoneS").textContent = phone;
+            var addressS = document.getElementById("addressS").textContent = address;
+            var newimg = document.getElementById("newimg").textContent = image;
+           
+            var image = document.getElementById("image").value; // This is the file input value, but we need to use the file preview for display
+
+            // Output the details in the console for now (or use them in your app as needed)
+            console.log('City:', city);
+            console.log('Full Name:', fname);
+            console.log('Father Name:', lname);
+            console.log('Email:', email);
+            console.log('Phone:', phone);
+            console.log('CNIC:', cnic);
+            console.log('Birth Date:', bDate);
+            console.log('Gender:', gender);
+            console.log('Address:', address);
+            console.log('Image File:', image);
+        }
+    </script>
+
+</body>
+
+</html>
